@@ -1,441 +1,439 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
-  <!-- Replace the content tag with appropriate information -->
-  <meta name="description" content="TRACE">
-  <meta property="og:title" content="TRACE"/>
-  <meta property="og:description" content="Interactive Bi-Directional Cable Tracing Amid Clutter"/>
-  <meta property="og:url" content="berkeleyautomation.github.io"/>
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
-  <meta property="og:image" content="static/images/banner_image.png" />
-  <meta property="og:image:width" content="1200"/>
-  <meta property="og:image:height" content="630"/>
-
-
-  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
-  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
-  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
-  <meta name="twitter:image" content="static/images/banner_image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TRACE: Interactive Bi-Directional Cable Tracing Amid Clutter</title>
-  <link rel="icon" type="image/x-icon" href="static/images/banner_image.png">
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-  rel="stylesheet">
-
-  <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="static/css/index.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
-  <script defer src="static/js/fontawesome.all.min.js"></script>
-  <script src="static/js/bulma-carousel.min.js"></script>
-  <script src="static/js/bulma-slider.min.js"></script>
-  <script src="static/js/index.js"></script>
+  <meta name="description" content="TRACE combines bi-directional cable tracing with interactive perception primitives (Divergence Push and Cluster Dilation) to trace monochrome cables amid clutter." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/svg+xml" href="media/favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    /* Pre-hide hero only when motion is welcome; a safety timeout guarantees
+       content appears even if the motion module never loads (offline / CDN fail). */
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        document.documentElement.classList.add('reveal-pending');
+        setTimeout(function () {
+          document.documentElement.classList.remove('reveal-pending');
+        }, 1500);
+      }
+    })();
+  </script>
 </head>
 <body>
 
+<nav class="toc" aria-label="Section navigation">
+  <!-- <a href="#result">Overview</a> -->
+  <a href="#problem">Problem</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#divergence">Divergence</a>
+  <a href="#primitives">Primitives</a>
+  <a href="#setup">Setup</a>
+  <a href="#results">Results</a>
+  <a href="#cite">Citation</a>
+</nav>
 
-  <section class="hero">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered">
-          <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">TRACE: Interactive Bi-Directional Cable Tracing Amid Clutter</h1>
-            <h2 class="subtitle is-3" style="margin-top:0.5em;">Two-way Routing and Cable Estimation</h2>
-            <div class="is-size-5 publication-authors">
-              <!-- Paper authors -->
-              <span class="author-block">
-                Anonymous Authors</span>
-              <!-- <span class="author-block"> -->
-                <!-- Nidhya Shivakumar<sup>*1</sup></span>, -->
-              <!-- <span class="author-block"> -->
-                <!-- Veena Sumedh<sup>*1</sup></span>, -->
-              <!-- <span class="author-block"> -->
-                <!-- Josh Zhang<sup>1</sup></span>, -->
-              <!-- <span class="author-block"> -->
-                <!-- Ethan Ransing<sup>1</sup></span>, -->
-              <!-- <span class="author-block"> -->
-                <!-- Osher Azulay<sup>1</sup>, -->
-                <!-- </span -->
-                 <!-- <span class="author-block"> -->
-                    <!-- Ken Goldberg<sup>1</sup> -->
-                  <!-- </span> -->
-                  <!-- </div> -->
+<div class="page-wrap">
 
-                  <!-- <div class="is-size-5 publication-authors"> -->
-                    <!-- <span class="author-block">AUTOLab at the University of California, Berkeley<sup>1</sup></span> -->
-                  <!-- </div> -->
+  <!-- ─── Hero ──────────────────────────────────────────── -->
+  <header class="hero">
+    <p class="hero-kicker hero-reveal">IROS 2026 &middot; AUTOLab, UC Berkeley</p>
+    <h1 class="hero-reveal">TRACE: Interactive Bi-Directional Cable Tracing Amid Clutter</h1>
 
-                  <!-- <div class="column has-text-centered">
-                    <div class="publication-links">
-                         <!-- Built-in PDF link -->
-                     <!-- <span class="link-block">
-                        <a href="pdf/ICRA_2026_Cable_Untangling_final_submitted.pdf" target="_blank"
-                        class="external-link button is-normal is-rounded is-dark">
-                        <span class="icon">
-                          <i class="fas fa-file-pdf"></i>
-                        </span>
-                        <span>Paper</span>
-                      </a>
-                    </span>
+    <div class="hero-meta hero-reveal">
+      <div class="hero-byline">
+        <div class="authors">
+          <!-- TODO: add per-author homepage links when available -->
+          Nidhya Shivakumar<sup>*1</sup><span class="author-sep">,</span>
+          Ethan Ransing<sup>*1</sup><span class="author-sep">,</span>
+          Josh Zhang<sup>1</sup><span class="author-sep">,</span>
+          Shamak Gowda<sup>1</sup><span class="author-sep">,</span>
+          Kevin Yang<sup>1</sup><span class="author-sep">,</span>
+          Justin Yu<sup>1</sup><span class="author-sep">,</span>
+          Ken Goldberg<sup>1</sup>
+        </div>
+        <div class="affiliations">
+          <span><sup>1</sup>AUTOLab at the University of California, Berkeley &middot; Berkeley AI Research (BAIR)</span>
+          <span><sup>*</sup>Equal contribution</span>
+        </div>
+      </div>
 
-                  <!-- Github link -->
-                 <!-- <span class="link-block">
-                    <a href="https://github.com/trace-icra/multicable_decluttering" target="_blank"
-                    class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>Code</span>
-                  </a>
-                </span> -->
+      <div class="header-actions">
+        <!-- TODO: when the IROS 2026 PDF / arXiv is live, swap each span for
+             <a href="..." class="action-link" target="_blank" rel="noopener"> and drop the "soon" tag. -->
+        <span class="action-link is-soon" title="Paper link coming soon" aria-disabled="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="9" y1="13" x2="15" y2="13"/>
+            <line x1="9" y1="17" x2="15" y2="17"/>
+          </svg>
+          Paper (PDF) <span class="soon-tag">soon</span>
+        </span>
+        <span class="action-link is-soon" title="Code repository coming soon" aria-disabled="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          Code <span class="soon-tag">soon</span>
+        </span>
+        <a class="action-link contact-link" href="mailto:ethan.ransing@berkeley.edu">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <polyline points="3 7 12 13 21 7"/>
+          </svg>
+          Contact
+        </a>
+      </div>
+    </div>
 
-              </span>
-            </div>
+    <p class="hero-claim hero-reveal">
+      Monochrome cables cannot be told apart by appearance alone. TRACE traces each
+      cable from both ends, locates where the two estimates disagree, and manipulates
+      the cables to resolve ambiguities.
+    </p>
+
+    <figure class="hero-stage hero-reveal hero-splash" aria-label="Splash video placeholder">
+      <img class="hero-poster" src="media/splash.png" width="1400" height="779" fetchpriority="high" decoding="async" alt="A TRACE run: cables recovered as continuous, topologically consistent colored traces on a dark workspace" />
+      <div class="splash-overlay" aria-hidden="true">
+        <span class="splash-play">▶</span>
+        <span class="splash-title">Splash video &mdash; placeholder</span>
+        <span class="splash-sub">Replace with continuous recording of one run</span>
+      </div>
+    </figure>
+  </header>
+
+  <main>
+
+    <!-- § Result hook — temporarily disabled
+    <div class="section result-hook" id="result">
+      <p class="hook-line">
+        Across 60 cluttered trials, TRACE increases the proportion of cable length
+        correctly traced from <span class="stat">40.2%</span> to
+        <span class="stat">89.3%</span> &mdash; a <span class="stat">77%</span>
+        average improvement over HANDLOOM&nbsp;2.0, the prior state of the art &mdash; and
+        traces every cable correctly in <span class="stat">32&#8239;/&#8239;60</span> scenes.
+      </p>
+    </div>
+    -->
+
+    <!-- § The monochrome challenge -->
+    <div class="section" id="problem">
+      <h2>The monochrome tracing problem</h2>
+      <p>
+        When cables differ in color, each one can be followed by its hue. Monochrome cables
+        remove that cue: every strand looks the same, so at each crossing it is ambiguous which
+        way a given cable continues. The system
+        must instead reason about geometry, and where the geometry is ambiguous,
+        resolve it by interacting with the scene. In the figure below, the only reliable visual
+        anchors are the detected connector endpoints.
+      </p>
+      <div class="challenge">
+        <div class="challenge-stage">
+          <img id="challengeImg" src="media/endpoints_detected.jpg" width="1200" height="649" loading="lazy" decoding="async" alt="Monochrome cables with detected connector endpoints" />
+        </div>
+        <div class="seg-group" role="group" aria-label="Toggle challenge view">
+          <button class="seg-btn active" data-img="media/endpoints_detected.jpg">Raw scene + detected endpoints</button>
+          <button class="seg-btn" data-img="media/final_traces.jpg">TRACE&rsquo;s recovered traces</button>
+        </div>
+      </div>
+      <p class="fig-caption">A Faster R-CNN detects the connectors (green). TRACE finds which endpoint connects to which and recovers the correct trace for each cable.</p>
+    </div>
+
+    <!-- § Pipeline / architecture -->
+    <div class="section" id="pipeline">
+      <h2>The TRACE pipeline</h2>
+      <p>
+        TRACE builds on the MANIP framework for modular interactive perception. Each iteration is a
+        closed loop of three stages: estimate the state of the cables, identify where that estimate is
+        uncertain, and act to reduce the uncertainty. The system then re-images the scene and repeats
+        until the trace is topologically consistent.
+      </p>
+
+      <div class="method-figure">
+        <img src="media/architecture.png" width="2202" height="710" loading="lazy" decoding="async" alt="TRACE architecture: a 4K overhead RGB image feeds the State Estimator (Object Detection + HANDLOOM), then the Divergence Classifier + Action Selector labels each divergence point as object, tangential crossing, or cluster, then the IP Primitives stage runs Cluster Dilation, Tangential Push, or Object Decluttering, and the loop continues until Termination." />
+      </div>
+      <p class="fig-caption">Fig.&nbsp;2 &mdash; the TRACE architecture (MANIP framework). The loop re-images and re-traces until every cable is topologically consistent, up to T<sub>max</sub>&nbsp;=&nbsp;10 iterations.</p>
+
+      <p>
+        The state estimator pairs a Faster R-CNN connector detector with the
+        HANDLOOM&nbsp;1.0 single-cable tracer, applied from both ends of each cable. The
+        Meta Policy Selector then combines three signals that the prior heuristic baselines do not
+        consider jointly &mdash; object masks, a local cable-density estimate, and the consistency
+        between the two traces &mdash; to select an appropriate action. The method operates on
+        monocular RGB images alone, without depth, stereo, or range data.
+      </p>
+    </div>
+
+    <!-- § Bi-directional tracing + divergence -->
+    <div class="section" id="divergence">
+      <h2>Bi-directional tracing &amp; divergence</h2>
+      <p>
+        TRACE traces from every connector, which yields two independent estimates for each cable.
+        The point at which the estimate from connector A and the estimate from connector B cease to
+        agree is, by construction, where the cable&rsquo;s identity is uncertain &mdash; a divergence
+        point. The steps below illustrate this.
+      </p>
+      <p>
+        Identifying these points proceeds in two passes. The first checks reciprocal consistency,
+        flagging traces whose forward and backward directions fail to overlap. The second analyzes
+        each flagged location and classifies it by how densely cables are packed nearby: a
+        cable cluster where they are dense, or a shallow tangential crossing where
+        they merely cross.
+      </p>
+
+      <div class="diverge">
+        <div class="diverge-stage">
+          <img src="media/divergence.png" width="1500" height="835" loading="lazy" decoding="async" alt="Bi-directional traces with divergence points" />
+          <!-- markers positioned as % of the composite -->
+          <span class="marker green s-endpoints" style="left:13.5%; top:19.4%"></span>
+          <span class="marker green s-endpoints" style="left:85.1%; top:39.6%"></span>
+          <span class="marker cyan s-diverge" style="left:57.9%; top:30.6%"></span>
+          <span class="marker cyan s-diverge" style="left:51.4%; top:54.7%"></span>
+        </div>
+        <div class="stepper" id="divergeStepper">
+          <button class="step-btn active" data-step="endpoints">1 · Detect connectors</button>
+          <button class="step-btn" data-step="trace">2 · Trace from each end</button>
+          <button class="step-btn" data-step="diverge">3 · Find divergence</button>
+        </div>
+        <p class="diverge-caption" id="divergeCaption">
+          A and B connectors are detected (green). Each one seeds an independent trace.
+        </p>
+      </div>
+    </div>
+
+    <!-- § Interactive perception moves -->
+    <div class="section" id="primitives">
+      <h2>Interactive perception primitives</h2>
+      <p>
+        At each divergence point, the Meta Policy Selector identifies one of three situations and
+        applies the corresponding action: Bimanual Object Decluttering when a foreground object
+        occludes the cable, a Divergence Push at a shallow tangential crossing, or a Cluster Dilation
+        at a dense knot where cables visually merge. Use the toggle to see each case.
+      </p>
+
+      <div class="seg-group density-toggle" role="group" aria-label="What the Meta Policy Selector detects">
+        <span class="seg-label">Selector detects:</span>
+        <button class="seg-btn" data-pick="declutter">Object on a cable</button>
+        <button class="seg-btn active" data-pick="push">Tangential crossing (low density)</button>
+        <button class="seg-btn" data-pick="dilation">Cable cluster (high density)</button>
+      </div>
+
+      <div class="primitive-cards">
+        <figure class="primitive-card" data-primitive="declutter">
+          <div class="primitive-stage">
+            <img src="media/declutter_placeholder.svg" width="540" height="500" loading="lazy" decoding="async" alt="Placeholder: bimanual object decluttering" />
           </div>
-        </div>
+          <figcaption>
+            <strong>Bimanual Object Decluttering</strong>
+            A segmentation model finds objects resting on the cables; a pick-and-place clears them. When two
+            objects sit on opposite sides, both YuMi arms clear them at once.
+          </figcaption>
+        </figure>
+
+        <figure class="primitive-card" data-primitive="push">
+          <div class="primitive-stage">
+            <img src="media/div_push.png" width="455" height="516" loading="lazy" decoding="async" alt="Divergence Push along the cable-distance-transform ridge" />
+          </div>
+          <figcaption>
+            <strong>Divergence Push</strong>
+            TRACE computes a Cable Distance Transform and extracts its ridges &mdash; the paths of
+            maximum clearance between cables &mdash; using a Frangi vesselness filter. The end-effector
+            follows that ridge through the crossing and a short distance (12&nbsp;px) beyond, separating
+            the two cables.
+          </figcaption>
+        </figure>
+
+        <figure class="primitive-card" data-primitive="dilation">
+          <div class="primitive-stage">
+            <img src="media/cluster_dilation.png" width="568" height="501" loading="lazy" decoding="async" alt="Cluster Dilation at the deepest open point" />
+            <span class="dilation-jaw jaw-a"></span>
+            <span class="dilation-jaw jaw-b"></span>
+          </div>
+          <figcaption>
+            <strong>Cluster Dilation</strong>
+            A closed gripper moves to the most open point within the cluster, opens its jaws, and rotates
+            180° in each direction to spread the merged cables apart.
+          </figcaption>
+        </figure>
       </div>
+      <p class="fig-caption">The highlighted card is the action TRACE selects for the chosen case. Hover the Cluster Dilation card to see the gripper motion. <em>Object-decluttering frame is a placeholder &mdash; flagged.</em></p>
     </div>
-  </div>
-</section>
 
-<!-- <section>
-  <div style="display: flex; justify-content: center; align-items: center; gap: 2em; margin-top: 0.1em; margin-bottom: 0.5em; flex-wrap: wrap;">
-    <img src="static/images/autolab.png" alt="Image 1" style="width: 20%; height:auto;">
-    <img src="static/images/bair.png" alt="Image 2" style="width: 15%; height:auto; margin-top: -30px;">
-    <img src="static/images/berkeley.png" alt="Image 3" style="width: 20%; height:auto;">
-  </div>
-</section> -->
+    <!-- § Marquee: watch a real run -->
+    <div class="section" id="loop">
+      <h2>The full perception–action loop</h2>
+      <p>
+        The viewer below shows one complete logged run of this loop, on the hardest setting &mdash;
+        4&nbsp;cables, 8&nbsp;connectors. It alternates between perception (the density heatmap of all eight
+        traces) and action (the Divergence&nbsp;Push the robot plans); each caption is drawn from the
+        system&rsquo;s action log, and the colored traces become continuous as the ambiguities are resolved.
+      </p>
 
-<!-- Teaser video -->
-<section class="section hero is-light teaser-video-section">
-  <div class="container is-max-desktop" style="margin-top:0.5em; margin-bottom:0.5em;">
-    <div class="hero-body">
-      <video poster="" id="tree" autoplay controls muted loop height="100%">
-        <!-- Your video here -->
-        <source src="static/videos/iros_vid_submission.mp4"
-        type="video/mp4">
-      </video>
-      <!-- <h2 class="subtitle has-text-centered">
-        video
-      </h2> -->
+      <div class="run-viewer">
+        <div class="run-stage">
+          <img id="runImg" src="media/loop/iter_0.jpg" width="1400" height="779" loading="lazy" decoding="async" alt="Robot run frame" />
+          <div class="run-badge" id="runBadge">Initial estimate</div>
+        </div>
+        <div class="run-controls">
+          <button id="runPlay" class="run-play" aria-label="Play">▶ Play</button>
+          <input id="runScrub" class="run-scrub" type="range" min="0" max="8" value="0" step="1" aria-label="Iteration" />
+          <span class="run-counter"><span id="runIdx">0</span> / 8</span>
+        </div>
+        <p class="run-caption" id="runCaption">Iteration 0 — initial bi-directional trace of all eight connectors. Many cables break at crossings.</p>
+      </div>
+      <p class="fig-caption">A complete pipeline run on an eight-connector Tier&nbsp;4 scene.</p>
     </div>
-  </div>
-</section>
-<!-- End teaser video -->
 
-<!-- Paper abstract -->
-<!-- <section class="section hero is-dark">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Overview</h2>
-        <div class="content has-text-justified">
-          <p>
-            Accurate state estimation (tracing) of deformable
-            cables has applications in manufacturing, construction, homes,
-            shipyards, and surgery. However, resolving the state of multiple
-            cluttered and tangled cables poses challenges due to occlusions,
-            overlap, and ambiguous crossings. We introduce Two-Way
-            Routing And Cable Estimation (TRACE), which combines
-            bi-directional cable tracing with novel interactive perception
-            primitives—Divergence Push and Cluster Dilation—to actively
-            resolve ambiguities. Evaluations on 110 physical experiments
-            suggest that TRACE increases the percent of cable length
-            correctly traced from ∼60% to ∼90% for complex scenarios
-            (with up to 4 cables and 40 overlapping crossings) over previous
-            tracing methods.
-          </p>
-        </div>
+    <!-- § Experimental setup -->
+    <div class="section" id="setup">
+      <h2>Experimental setup</h2>
+      <p>
+        All evaluation is conducted on physical hardware, comprising 110 trials in
+        total: 50 without foreground clutter and 60 with it (15 per tier). No simulation or depth
+        sensing is used.
+      </p>
+
+      <dl class="spec">
+        <div><dt>Robot</dt><dd>Bimanual ABB&nbsp;YuMi; motion planning via Jacobi&nbsp;Motion</dd></div>
+        <div><dt>Camera</dt><dd>Overhead Logitech&nbsp;BRIO, 4K, 1&nbsp;m above the workspace</dd></div>
+        <div><dt>Perception</dt><dd>Monocular RGB only &mdash; no depth, stereo, or range data</dd></div>
+        <div><dt>Cables</dt><dd>2&ndash;4 white 6-foot USB-C&nbsp;&harr;&nbsp;USB-C cables, randomly arranged</dd></div>
+        <div><dt>Endpoints</dt><dd>Connectors seated in two 8&times;5&nbsp;cm black USB hubs on opposite sides</dd></div>
+        <div><dt>Compute / iter</dt><dd>Tier&nbsp;4: 6.4&nbsp;s tracing + 13.4&nbsp;s execution (Ryzen&nbsp;7&nbsp;7700X, RTX&nbsp;4090)</dd></div>
+      </dl>
+
+      <h3>Tiers of complexity</h3>
+      <p>
+        Evaluation follows the tiered protocol from MANIP: four tiers scale the scene from 2 cables and
+        2 crossings up to 4 cables and 4&ndash;5 crossings, with 3&ndash;4 clutter objects throughout.
+      </p>
+      <div class="table-wrap">
+        <table class="tier-table">
+          <thead>
+            <tr><th>Per scene</th><th>Tier&nbsp;1</th><th>Tier&nbsp;2</th><th>Tier&nbsp;3</th><th>Tier&nbsp;4</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Cables</td><td>2</td><td>2</td><td>3</td><td>4</td></tr>
+            <tr><td>Tangential crossings</td><td>2</td><td>3</td><td>3&ndash;4</td><td>4&ndash;5</td></tr>
+            <tr><td>Foreground objects</td><td>3&ndash;4</td><td>3&ndash;4</td><td>3&ndash;4</td><td>3&ndash;4</td></tr>
+          </tbody>
+        </table>
       </div>
+      <p class="fig-caption">The four complexity tiers used for every evaluation below.</p>
     </div>
-  </div>
-</section> -->
-<!-- End paper abstract -->
 
-<section class="section hero is-dark">
+    <!-- § Results -->
+    <div class="section" id="results">
+      <h2>Cable-tracing accuracy</h2>
+      <p>
+        Each bar shows the average percentage of cable length correctly traced, across the four
+        complexity tiers. The two scenarios can be compared using the toggle; the margin over
+        HANDLOOM 2.0 grows substantially once foreground clutter is present.
+      </p>
 
-  <div class="container is-max-desktop" style="margin-top: -2em; margin-bottom:-1em">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h5 class="title is-3">TRACE Concept Overview</h5>
-      </div>
-    </div>
-    <img src="static/images/concept.png" alt="Concept Overview">
-    <div class="concept-caption" style="text-align:center; margin-top:0.5em; font-size:1.1em; color:#d3d3d3;">TRACE receives an overhead image as input (top right). By running a cable state estimator from each endpoint, TRACE identifies points of ambiguity, or divergence points, which are then disambiguated by targeted interactive perception primitives (bottom left and middle).</div>
-  </div>
-</section>
-
-<section class="section hero is-light">
-  <div class="container is-max-desktop" style="margin-top: -2em; margin-bottom:0em">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h5 class="title is-3">TRACE Framework</h5>
-      </div>
-    </div>
-    <img src="static/images/sketch.png" alt="TRACE Framework">
-    <div class="concept-caption" style="text-align:center; margin-top:0.5em; font-size:1.1em; color:#4c4c4c;">TRACE runs the cable state estimator bi-directionally, identifies divergence points, and disambiguates with interactive perception primitives continuously until the cables are successfully traced.</div>
-  </div>
-</section>
-
-<!-- End teaser video -->
-
-  <!-- <section class="hero is-small">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3">Method</h2>
-        <div class="item item-video1">
-          <video poster="" id="video1" autoplay controls muted loop height="100%">
-
-            <source src="static/videos/method.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        </div>
-      </div>
-</section> -->
-
-<!-- Video carousel -->
-<!-- <section class="hero is-small">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3">Learning teacher policy in simulation</h2>
-        <div class="item item-video1">
-          <video poster="" id="video1" autoplay controls muted loop height="100%">
-            <source src="static/videos/crop.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        </div>
-      </div>
-</section> -->
-<!-- End video carousel -->
-
-  <!-- <section class="hero is-small">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3">Robust insertion policy</h2>
-        <div class="item item-video1">
-          <video poster="" id="video1" autoplay controls muted loop height="100%">
-            <source src="static/videos/new.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        </div>
-      </div>
-</section> -->
-
-  <!-- <section class="hero is-small">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <h2 class="title is-3">Real-World Deploy</h2>
-        <div class="item item-video1">
-          <video poster="" id="video1" autoplay controls muted loop height="100%">
-            <source src="static/videos/real.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        </div>
-      </div>
-</section> -->
-
-
-
-  <!-- Video carousel -->
-<!-- <section class="hero is-small">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-            <h2 class="title is-3">Examples</h2>
-
-        <div class="row" style="margin-top: 0px; margin-left: 5px;">
-        <h3 class="col-md-8 col-md-offset-2" style="font-size: 32px; font-weight: bold; text-align:center; margin-bottom: 50px;">
-         <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-video1" >
-          <video poster="" id="video1" autoplay controls muted loop height="100%" >
-            <source src="static/videos/Media1.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video2">
-          <video poster="" id="video2" autoplay controls muted loop height="100%">
-            <source src="static/videos/Media2.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-video3">
-          <video poster="" id="video3" autoplay controls muted loop height="100%">\
-            <source src="static/videos/Media3.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-                <div class="item item-video4">
-          <video poster="" id="video4" autoplay controls muted loop height="100%">\
-            <source src="static/videos/Media4.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-                <div class="item item-video5">
-          <video poster="" id="video5" autoplay controls muted loop height="100%">\
-            <source src="static/videos/Media5.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-                <div class="item item-video6">
-          <video poster="" id="video6" autoplay controls muted loop height="100%">\
-            <source src="static/videos/Media6.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-
-                <div class="item item-video7">
-          <video poster="" id="video7" autoplay controls muted loop height="100%">\
-            <source src="static/videos/Media7.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-
-                <div class="item item-video8">
-          <video poster="" id="video8" autoplay controls muted loop height="100%">\
-            <source src="static/videos/Media8.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-
-                <div class="item item-video9">
-          <video poster="" id="video9" autoplay controls muted loop height="100%">\
-            <source src="static/videos/Media9.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-
-                <div class="item item-video10">
-          <video poster="" id="video10" autoplay controls muted loop height="100%">\
-            <source src="static/videos/Media10.mp4"
-            type="video/mp4">
-          </video>
-        </div>
-
+      <div class="seg-group" role="group" aria-label="Scenario">
+        <button class="seg-btn active" data-chart="clutter">With foreground clutter (60 trials)</button>
+        <button class="seg-btn" data-chart="clean">Without clutter (50 trials)</button>
       </div>
 
-    </div>
-  </div>
-</section> -->
-<!-- End video carousel -->
-<!--BibTex citation -->
-  <!-- <section class="section" id="BibTeX">
-    <div class="container is-max-desktop content">
-      <h2 class="title">BibTeX</h2>
-      <pre><code>@misc{yu2025handloom3.0,
-      title={Visuotactile-Based Learning for Insertion with Compliant Hands},
-      author={Osher Azulay and Dhruv Metha Ramesh and Nimrod Curtis and Avishai Sintov},
-      year={2024},
-      eprint={2411.06408},
-      archivePrefix={arXiv},
-      primaryClass={cs.RO},
-      url={https://arxiv.org/abs/2411.06408},
-}</code></pre>
-    </div>
-</section> -->
-<!--End BibTex citation -->
-<!-- Divergence Point Detection Section -->
-
-<section class="section hero is-dark">
-  <div class="container is-max-desktop" style="margin-top: -2em; margin-bottom:-2em">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h5 class="title is-3">Divergence Point Detection</h5>
+      <div class="chart" id="chart" aria-hidden="true"></div>
+      <div class="chart-legend">
+        <span><i class="swatch" style="background:#5B8DB8"></i>HANDLOOM 2.0</span>
+        <span><i class="swatch" style="background:#E8801A"></i>TRACE</span>
       </div>
-    </div>
-      <div style="display: flex; justify-content: center; align-items: center;">
-        <img src="static/images/initial_trace.png" alt="Divergence Point Detection" style="max-width:630px; width:100%; height:auto;" />
+      <p class="fig-caption" id="chartCaption">With foreground clutter, TRACE correctly traces all cables in 32 of 60 trials, a 77% average improvement over HANDLOOM 2.0.</p>
+
+      <div class="table-wrap">
+        <table class="tier-table" id="tierStats">
+          <thead>
+            <tr><th>% length traced</th><th>Tier&nbsp;1</th><th>Tier&nbsp;2</th><th>Tier&nbsp;3</th><th>Tier&nbsp;4</th></tr>
+          </thead>
+          <tbody><!-- rendered by script.js to mirror the active scenario --></tbody>
+        </table>
       </div>
-    <div class="concept-caption" style="text-align:center; margin-top:0.5em; font-size:1.1em; color:#d3d3d3;">TRACE first initiates traces from each endpoint, resulting in two separate traces per cable.</div>
-    <div style="height:1em;"></div>
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <img src="static/images/div_logic.png" alt="Divergence Point Detection" style="max-width:100%; height:auto;" />
-    </div>
-    <div class="concept-caption" style="text-align:center; margin-top:0.5em; font-size:1.1em; color:#d3d3d3;">Candidate trace pairs, or the forward and backward traces of a single cable, are determined by matching traces with high overlap. Points where the cables no longer overlap are marked as divergence points—locations where interactive perception primitives will be applied.</div>
-  </div>
-</section>
-<!-- Interactive Perception Moves Section -->
-<section class="section hero is-light">
-  <div class="container is-max-desktop" style="margin-top: -2em; margin-bottom:-2em">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h5 class="title is-3">Interactive Perception (IP) Moves</h5>
+
+      <h3>Against other tracers &amp; frontier VLMs</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Compute</th><th>Initial</th><th>Final</th></tr>
+          </thead>
+          <tbody>
+            <tr class="method-row"><td>RT-DLO <span class="muted">(600×600 crops)</span></td><td>0.05 s</td><td>57.1%</td><td>76.0%</td></tr>
+            <tr class="method-row"><td><strong>TRACE</strong> <span class="muted">(crops)</span></td><td>0.40 s</td><td>68.3%</td><td class="best">97.5%</td></tr>
+            <tr class="section-break method-row"><td>Nano Banana Pro <span class="muted">(VLM)</span></td><td>—</td><td>37.5%</td><td>34.8%</td></tr>
+            <tr class="method-row"><td>ChatGPT 5.2 <span class="muted">(VLM)</span></td><td>—</td><td>19.5%</td><td>26.8%</td></tr>
+            <tr class="method-row"><td><strong>TRACE</strong></td><td>0.40 s</td><td>40.2%</td><td class="best">89.3%</td></tr>
+          </tbody>
+        </table>
       </div>
+      <p class="fig-caption">For TRACE, the &ldquo;final&rdquo; column reflects accuracy after its interactive moves; the baseline methods are evaluated from a single pass.</p>
     </div>
-  <div style="display: flex; justify-content: center; align-items: center; gap: 2em; min-height: 200px; margin-bottom: 1em;">
-      <img src="static/images/push.png" alt="IP Move 1" style="width: 40%; height: auto; border-radius: 8px;" />
-      <img src="static/images/cluster.png" alt="IP Move 2" style="width: 40%; height: auto; border-radius: 8px;" />
-    </div>
-    <div class="concept-caption" style="text-align:center; margin-top:0.5em; font-size:1.1em; color:#555;">Interactive perception primitives are selected based on the cable density in a local region at the divergence point. TRACE applies a Divergence Push in regions with low density and a Cluster Dilation in highly dense regions.</div>
-  </div>
-</section>
-  
-<!-- Results Section -->
-<section class="section hero is-dark">
-  <div class="container is-max-desktop" style="margin-top: -2em; margin-bottom:-2em">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h5 class="title is-3">Results</h5>
+
+    <!-- § VLM comparison -->
+    <div class="section">
+      <h2>TRACE vs. frontier VLMs</h2>
+      <p>
+        When asked to trace the same monochrome scene, current vision-language models tend to produce
+        connections that are not present in the image. TRACE&rsquo;s geometric, interactive approach is
+        substantially more accurate.
+      </p>
+      <div class="method-figure">
+        <img src="media/vlm_compare.jpg" width="1600" height="478" loading="lazy" decoding="async" alt="Monochrome scene (left) vs a VLM's hallucinated colored tracing (right)" />
       </div>
-    </div>
-    <div class="results-figure-block" style="margin-bottom:2em;">
-        <div class="concept-caption" style="text-align:center; margin-top:0.5em; font-size:1.1em; color:#d3d3d3;">We baseline TRACE against HANDLOOM 2.0 from MANIP in 110 physical experiments. TRACE consistently outperforms HANDLOOM 2.0 in scenarios with foreground clutter and without foreground clutter across all tiers of difficulty.</div>
-        <div style="height:0.5em;"></div>
-        <div style="display: flex; justify-content: center; align-items: center;">
-          <img src="static/images/manip.png" alt="Results Figure 1" style="max-width:700px; width:100%; height:auto; border-radius:8px;" />
-        </div>
-    </div>
-    <div class="results-figure-block" style="margin-bottom:2em;">
-      <div class="concept-caption" style="text-align:center; margin-top:0.5em; font-size:1.1em; color:#d3d3d3;">We also baseline TRACE against RT-DLO on small image crops, since RT-DLO only traces small portions of full images. To isolate TRACE’s interactive perception primitives, we compare the trace accuracy on the initial and final image of each trial. While RT-DLO’s performance increases after TRACE’s interactive primitives, TRACE achieves higher accuracy.</div>
-      <div style="height:0.5em;"></div>
-      <div style="display: flex; justify-content: center; align-items: center;">
-        <img src="static/images/rt-dlo.png" alt="Results Figure 2" style="max-width:500px; width:100%; height:auto; border-radius:8px;" />
+      <div class="badge-row">
+        <div class="badge"><span class="badge-num accent">89.3%</span>TRACE</div>
+        <div class="badge"><span class="badge-num">34.8%</span>Nano Banana Pro</div>
+        <div class="badge"><span class="badge-num">26.8%</span>ChatGPT 5.2</div>
       </div>
+      <p class="fig-caption">Left: the monochrome input. Right: a VLM&rsquo;s colored reconstruction, which is incorrect where cables cross. Values are final correctly-traced length; spurious cables are scored as zero.</p>
     </div>
-  </div>
-</section>
 
-
-
-
-<footer class="footer">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-
-          <p>
-            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
-            This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-
-        </div>
-      </div>
+    <!-- § BibTeX -->
+    <div class="section" id="cite">
+      <h2>Citation</h2>
+      <pre class="bibtex">@inproceedings{trace2026,
+  title     = {TRACE: Interactive Bi-Directional Cable Tracing Amid Clutter},
+  author    = {Nidhya Shivakumar and Ethan Ransing and Josh Zhang and
+               Shamak Gowda and Kevin Yang and Justin Yu and Ken Goldberg},
+  booktitle = {Proceedings of the IEEE/RSJ International Conference on
+               Intelligent Robots and Systems (IROS)},
+  year      = {2026}
+}</pre>
     </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="page-wrap footer-inner">
+    <span>2026 AUTOLab, UC Berkeley</span>
+    <span>Page template adapted from the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>.</span>
   </div>
 </footer>
 
-<!-- Statcounter tracking code -->
-  
-<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
-
-    <!-- End of Statcounter Code -->
-
-  </body>
-  </html>
+<script src="script.js"></script>
+<script type="module">
+  /* Entrance-only choreography: one orchestrated hero reveal on load, then static.
+     Progressive enhancement — if the import fails, the head-script timeout has
+     already revealed the hero, and every widget in script.js runs independently. */
+  if (document.documentElement.classList.contains('reveal-pending')) {
+    try {
+      const { animate, stagger } = await import('https://cdn.jsdelivr.net/npm/motion@11.18.2/+esm');
+      const els = document.querySelectorAll('.hero-reveal');
+      await animate(
+        els,
+        { opacity: [0, 1], transform: ['translateY(14px)', 'translateY(0px)'] },
+        { duration: 0.62, delay: stagger(0.085), easing: [0.22, 1, 0.36, 1] }
+      ).finished;
+      document.documentElement.classList.remove('reveal-pending');
+    } catch (e) {
+      document.documentElement.classList.remove('reveal-pending');
+    }
+  }
+</script>
+</body>
+</html>

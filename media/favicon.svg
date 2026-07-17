@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="oklch(42% 0.14 255)"/>
+  <!-- two cables crossing — TRACE mark -->
+  <path d="M12 20 C 28 20, 36 44, 52 44" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  <path d="M12 44 C 28 44, 36 20, 52 20" fill="none" stroke="oklch(85% 0.12 255)" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="12" cy="20" r="4" fill="#fff"/>
+  <circle cx="52" cy="44" r="4" fill="#fff"/>
+</svg>
