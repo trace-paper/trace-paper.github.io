@@ -819,7 +819,8 @@ footer {
   background: oklch(12% 0.01 240);
 }
 
-.hero-stage img { width: 100%; display: block; }
+.hero-stage img,
+.hero-stage video { width: 100%; display: block; }
 
 .hero-badge {
   position: absolute;
@@ -871,6 +872,7 @@ footer {
 /* Images carry width/height attributes; keep height fluid so the reserved
    aspect-ratio box scales with the column instead of locking to pixel height. */
 .hero-stage img,
+.hero-stage video,
 .run-stage img,
 .challenge-stage img,
 .diverge-stage img,
@@ -964,48 +966,6 @@ footer {
 @media (max-width: 1179px) { .toc { display: none; } }
 
 @media (prefers-reduced-motion: reduce) { .toc a { transition: none; } }
-
-/* ─── Hero splash placeholder ───────────────────────────── */
-.hero-poster { opacity: 0.42; }
-
-.splash-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: var(--space-sm);
-  padding: var(--space-xl);
-}
-
-.splash-play {
-  width: 54px;
-  height: 54px;
-  display: grid;
-  place-items: center;
-  border: 2px solid oklch(100% 0 0 / 0.7);
-  border-radius: 50%;
-  color: oklch(100% 0 0 / 0.92);
-  font-size: 1.05rem;
-  padding-left: 4px;
-  margin-bottom: var(--space-xs);
-}
-
-.splash-title {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: oklch(100% 0 0 / 0.95);
-}
-
-.splash-sub {
-  font-size: 0.82rem;
-  line-height: 1.5;
-  max-width: 46ch;
-  color: oklch(100% 0 0 / 0.74);
-}
 
 /* ─── Action link: coming-soon state ─── */
 .action-link.is-soon {

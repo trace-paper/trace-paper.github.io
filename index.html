@@ -97,13 +97,21 @@
       the cables to resolve ambiguities.
     </p>
 
-    <figure class="hero-stage hero-reveal hero-splash" aria-label="Splash video placeholder">
-      <img class="hero-poster" src="media/splash.png" width="1400" height="779" fetchpriority="high" decoding="async" alt="A TRACE run: cables recovered as continuous, topologically consistent colored traces on a dark workspace" />
-      <div class="splash-overlay" aria-hidden="true">
-        <span class="splash-play">▶</span>
-        <span class="splash-title">Splash video &mdash; placeholder</span>
-        <span class="splash-sub">Replace with continuous recording of one run</span>
-      </div>
+    <figure class="hero-stage hero-reveal hero-splash" aria-label="TRACE run recording">
+      <video
+        class="hero-video"
+        poster="media/splash.png"
+        width="1400"
+        height="779"
+        controls
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+      >
+        <source src="media/splash.mp4" type="video/mp4" />
+      </video>
     </figure>
   </header>
 
