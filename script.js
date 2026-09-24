@@ -184,8 +184,8 @@ for (let k = 0; k < RUN_FRAMES; k++) { const p = new Image(); p.src = `media/loo
     const d = data[key];
     chart.innerHTML = [0, 1, 2, 3].map(t => `
       <div class="bar-group">
-        <div class="bar" data-h="${d.handloom[t]}" style="background:#5B8DB8"><span class="bar-val">${d.handloom[t]}%</span></div>
-        <div class="bar" data-h="${d.trace[t]}" style="background:#E8801A"><span class="bar-val">${d.trace[t]}%</span></div>
+        <div class="bar" data-h="${d.handloom[t]}" style="background:#A9B2BC"><span class="bar-val">${d.handloom[t]}%</span></div>
+        <div class="bar" data-h="${d.trace[t]}" style="background:#002676"><span class="bar-val">${d.trace[t]}%</span></div>
       </div>`).join('');
     cap.textContent = d.caption;
     renderStats(d);

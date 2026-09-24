@@ -1,8 +1,8 @@
 /* ─────────────────────────────────────────────────────────────
    TRACE project page — styled after https://eyerobot2.github.io/:
    plain white page, Open Sans throughout, an 800px reading column,
-   a quiet gray sticky TOC, pill nav buttons, and a warm orange
-   accent used sparingly (it already matched our own chart color).
+   a quiet gray sticky TOC, pill nav buttons, and Berkeley Blue
+   used sparingly as the single accent.
    ───────────────────────────────────────────────────────────── */
 
 /* ─── Tokens ─────────────────────────────────────────── */
@@ -15,10 +15,11 @@
   --text:          #1f1f1f;
   --text-secondary: #333333;
   --text-tertiary:  #8a8a8a;
-  --accent:       #E8801A;            /* warm orange — matches the TRACE chart bars */
-  --accent-mid:   #c96a12;
-  --accent-light: #fdf1e2;
-  --accent-rule:  #E8801A;
+  /* UC Berkeley brand palette — brand.berkeley.edu/visual-identity/colors */
+  --accent:       #002676;            /* Berkeley Blue — the single brand accent */
+  --accent-mid:   #004AAE;            /* Blue Medium — hover / secondary accent */
+  --accent-light: #edf2fc;            /* faint Berkeley-blue wash */
+  --accent-rule:  #002676;
 
   --font-display: 'Open Sans', -apple-system, 'Avenir Next', Helvetica, Arial, sans-serif;
   --font-body:    'Open Sans', -apple-system, Helvetica, Arial, sans-serif;
@@ -184,10 +185,14 @@ main { padding: var(--space-md) 0 var(--space-xl); }
   padding-top: var(--space-2xl);
   margin-bottom: var(--space-xl);
   scroll-margin-top: var(--space-lg);
+  border-top: 1px solid var(--border);
   position: relative;
 }
 
-.section:first-child { padding-top: 0; }
+.section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
 
 h2 {
   font-family: var(--font-display);
@@ -819,32 +824,6 @@ footer {
 
 @media (max-width: 600px) {
   .hero { padding-top: var(--space-xl); }
-}
-
-/* ─── Section eyebrow ────────────────────────────────── */
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  margin-bottom: var(--space-sm);
-  max-width: none;
-}
-
-.eyebrow span {
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
-
-.eyebrow::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
 }
 
 /* ─── Headline result ────────────────────────────────── */
