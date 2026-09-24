@@ -202,6 +202,28 @@ for (let k = 0; k < RUN_FRAMES; k++) { const p = new Image(); p.src = `media/loo
   render('clutter');
 })();
 
+// ── Section scroll reveal ───────────────────────────────
+(() => {
+  const root = document.documentElement;
+  if (!root.classList.contains('js-reveal')) return;
+  const sections = document.querySelectorAll('.reveal');
+  if (!sections.length || !('IntersectionObserver' in window)) {
+    root.classList.remove('js-reveal');
+    return;
+  }
+  window.__revealsReady = true;
+
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-visible');
+      obs.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+
+  sections.forEach(s => io.observe(s));
+})();
+
 // ── Sticky TOC scroll-spy ───────────────────────────────
 (() => {
   const links = Array.from(document.querySelectorAll('.toc a'));

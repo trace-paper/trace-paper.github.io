@@ -8,18 +8,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="icon" type="image/svg+xml" href="media/favicon.svg" />
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script>
     /* Pre-hide hero only when motion is welcome; a safety timeout guarantees
        content appears even if the motion module never loads (offline / CDN fail). */
     (function () {
-      if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-        document.documentElement.classList.add('reveal-pending');
-        setTimeout(function () {
-          document.documentElement.classList.remove('reveal-pending');
-        }, 1500);
-      }
+      if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+      var root = document.documentElement;
+      root.classList.add('reveal-pending', 'js-reveal');
+      setTimeout(function () { root.classList.remove('reveal-pending'); }, 1500);
+      /* If script.js never loads, un-arm the section reveals so nothing stays hidden. */
+      setTimeout(function () {
+        if (!window.__revealsReady) root.classList.remove('js-reveal');
+      }, 2500);
     })();
   </script>
 </head>
@@ -41,12 +43,11 @@
   <!-- ─── Hero ──────────────────────────────────────────── -->
   <header class="hero">
     <p class="hero-kicker hero-reveal">IROS 2026 &middot; AUTOLab, UC Berkeley</p>
-    <h1 class="hero-reveal">TRACE: Interactive Bi-Directional Cable Tracing Amid Clutter</h1>
+    <h1 class="hero-reveal"><strong>TRACE</strong>: Interactive Bi-Directional Cable Tracing Amid Clutter</h1>
 
     <div class="hero-meta hero-reveal">
       <div class="hero-byline">
         <div class="authors">
-          <!-- TODO: add per-author homepage links when available -->
           Nidhya Shivakumar<sup>*1</sup><span class="author-sep">,</span>
           Ethan Ransing<sup>*1</sup><span class="author-sep">,</span>
           Josh Zhang<sup>1</sup><span class="author-sep">,</span>
@@ -64,8 +65,6 @@
       </div>
 
       <div class="header-actions">
-        <!-- TODO: when the IROS 2026 PDF / arXiv is live, swap each span for
-             <a href="..." class="action-link" target="_blank" rel="noopener"> and drop the "soon" tag. -->
         <span class="action-link is-soon" title="Paper link coming soon" aria-disabled="true">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -113,24 +112,30 @@
         <source src="media/splash.mp4" type="video/mp4" />
       </video>
     </figure>
+
+    <p class="scroll-hint hero-reveal">&darr; Scroll to learn more &darr;</p>
   </header>
 
   <main>
 
-    <!-- § Result hook — temporarily disabled
-    <div class="section result-hook" id="result">
+    <!-- § Headline result -->
+    <div class="section result-hook reveal" id="result">
       <p class="hook-line">
-        Across 60 cluttered trials, TRACE increases the proportion of cable length
-        correctly traced from <span class="stat">40.2%</span> to
-        <span class="stat">89.3%</span> &mdash; a <span class="stat">77%</span>
-        average improvement over HANDLOOM&nbsp;2.0, the prior state of the art &mdash; and
-        traces every cable correctly in <span class="stat">32&#8239;/&#8239;60</span> scenes.
+        Across 60 cluttered trials, TRACE raises correctly traced cable length from
+        <span class="stat">40.2%</span> to <span class="stat">89.3%</span> &mdash; and
+        recovers every cable in <span class="stat">32&#8239;/&#8239;60</span> scenes.
       </p>
+      <dl class="stat-band">
+        <div><dt>89.3%</dt><dd>cable length traced, with clutter</dd></div>
+        <div><dt>77%</dt><dd>average gain over HANDLOOM&nbsp;2.0</dd></div>
+        <div><dt>32&#8239;/&#8239;60</dt><dd>scenes traced fully correctly</dd></div>
+        <div><dt>110</dt><dd>physical trials, no simulation</dd></div>
+      </dl>
     </div>
-    -->
 
     <!-- § The monochrome challenge -->
-    <div class="section" id="problem">
+    <div class="section reveal" id="problem">
+      <p class="eyebrow"><span>01</span> The problem</p>
       <h2>The monochrome tracing problem</h2>
       <p>
         When cables differ in color, each one can be followed by its hue. Monochrome cables
@@ -153,7 +158,8 @@
     </div>
 
     <!-- § Pipeline / architecture -->
-    <div class="section" id="pipeline">
+    <div class="section reveal" id="pipeline">
+      <p class="eyebrow"><span>02</span> Method</p>
       <h2>The TRACE pipeline</h2>
       <p>
         TRACE builds on the MANIP framework for modular interactive perception. Each iteration is a
@@ -178,7 +184,8 @@
     </div>
 
     <!-- § Bi-directional tracing + divergence -->
-    <div class="section" id="divergence">
+    <div class="section reveal" id="divergence">
+      <p class="eyebrow"><span>03</span> Where tracing fails</p>
       <h2>Bi-directional tracing &amp; divergence</h2>
       <p>
         TRACE traces from every connector, which yields two independent estimates for each cable.
@@ -215,7 +222,8 @@
     </div>
 
     <!-- § Interactive perception moves -->
-    <div class="section" id="primitives">
+    <div class="section reveal" id="primitives">
+      <p class="eyebrow"><span>04</span> The actions</p>
       <h2>Interactive perception primitives</h2>
       <p>
         At each divergence point, the Meta Policy Selector identifies one of three situations and
@@ -269,11 +277,12 @@
           </figcaption>
         </figure>
       </div>
-      <p class="fig-caption">The highlighted card is the action TRACE selects for the chosen case. Hover the Cluster Dilation card to see the gripper motion. <em>Object-decluttering frame is a placeholder &mdash; flagged.</em></p>
+      <p class="fig-caption">The highlighted card is the action TRACE selects for the chosen case. Hover the Cluster Dilation card to see the gripper motion. <em>The object-decluttering frame is illustrative.</em></p>
     </div>
 
     <!-- § Marquee: watch a real run -->
-    <div class="section" id="loop">
+    <div class="section reveal" id="loop">
+      <p class="eyebrow"><span>05</span> A complete run</p>
       <h2>The full perception–action loop</h2>
       <p>
         The viewer below shows one complete logged run of this loop, on the hardest setting &mdash;
@@ -298,7 +307,8 @@
     </div>
 
     <!-- § Experimental setup -->
-    <div class="section" id="setup">
+    <div class="section reveal" id="setup">
+      <p class="eyebrow"><span>06</span> Hardware</p>
       <h2>Experimental setup</h2>
       <p>
         All evaluation is conducted on physical hardware, comprising 110 trials in
@@ -336,7 +346,8 @@
     </div>
 
     <!-- § Results -->
-    <div class="section" id="results">
+    <div class="section reveal" id="results">
+      <p class="eyebrow"><span>07</span> Results</p>
       <h2>Cable-tracing accuracy</h2>
       <p>
         Each bar shows the average percentage of cable length correctly traced, across the four
@@ -384,7 +395,8 @@
     </div>
 
     <!-- § VLM comparison -->
-    <div class="section">
+    <div class="section reveal">
+      <p class="eyebrow"><span>08</span> Comparison</p>
       <h2>TRACE vs. frontier VLMs</h2>
       <p>
         When asked to trace the same monochrome scene, current vision-language models tend to produce
@@ -403,9 +415,13 @@
     </div>
 
     <!-- § BibTeX -->
-    <div class="section" id="cite">
-      <h2>Citation</h2>
-      <pre class="bibtex">@inproceedings{trace2026,
+    <div class="section reveal" id="cite">
+      <div class="cite-card">
+        <div class="cite-head">
+          <h2>Citation</h2>
+          <p>If you use this work or find it helpful, please consider citing:</p>
+        </div>
+        <pre class="bibtex">@inproceedings{trace2026,
   title     = {TRACE: Interactive Bi-Directional Cable Tracing Amid Clutter},
   author    = {Nidhya Shivakumar and Ethan Ransing and Josh Zhang and
                Shamak Gowda and Kevin Yang and Miles Hua and Anika Agrawal and Justin Yu and Ken Goldberg},
@@ -413,6 +429,7 @@
                Intelligent Robots and Systems (IROS)},
   year      = {2026}
 }</pre>
+      </div>
     </div>
 
   </main>
