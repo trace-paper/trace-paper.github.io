@@ -1,7 +1,8 @@
 # TRACE — project page
 
 A static, GitHub-hostable academic project page for **TRACE: Interactive Bi-Directional
-Cable Tracing Amid Clutter** (Newsreader + DM Sans, OKLch tokens, centered single column).
+Tracing of Monochrome Cables Amid Clutter** (Open Sans, Berkeley Blue accent, centered
+single column).
 The visual system is documented in the repo-root `PRODUCT.md` / `DESIGN.md` ("The Lab Notebook").
 
 The page opens with an **auto-looping hero** (the real robot run playing on load) and a

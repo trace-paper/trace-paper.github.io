@@ -776,13 +776,15 @@ footer {
 }
 
 .hero h1 {
-  font-size: clamp(2.1rem, 5.4vw, 3.4rem);
-  line-height: 1.06;
-  letter-spacing: -0.035em;
-  max-width: 20ch;
+  font-size: clamp(1.95rem, 4.6vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  max-width: 24ch;
   margin-bottom: var(--space-lg);
   text-wrap: balance;
 }
+
+.nowrap { white-space: nowrap; }
 
 .hero-claim {
   font-size: clamp(1.05rem, 1.7vw, 1.22rem);
