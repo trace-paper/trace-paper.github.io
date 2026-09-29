@@ -122,7 +122,7 @@
     <div class="section result-hook reveal" id="result">
       <p class="hook-line">
         Across 60 cluttered trials, TRACE raises correctly traced cable length from
-        <span class="stat">40.2%</span> to <span class="stat">89.3%</span> &mdash; and
+        <span class="stat">40.2%</span> to <span class="stat">89.3%</span>, and
         recovers every cable in <span class="stat">32&#8239;/&#8239;60</span> scenes.
       </p>
       <dl class="stat-band">
@@ -146,11 +146,7 @@
       </p>
       <div class="challenge">
         <div class="challenge-stage">
-          <img id="challengeImg" src="media/endpoints_detected.jpg" width="1200" height="649" loading="lazy" decoding="async" alt="Monochrome cables with detected connector endpoints" />
-        </div>
-        <div class="seg-group" role="group" aria-label="Toggle challenge view">
-          <button class="seg-btn active" data-img="media/endpoints_detected.jpg">Raw scene + detected endpoints</button>
-          <button class="seg-btn" data-img="media/final_traces.jpg">TRACE&rsquo;s recovered traces</button>
+          <img src="media/endpoints_detected.jpg" width="1200" height="649" loading="lazy" decoding="async" alt="Monochrome cables with detected connector endpoints" />
         </div>
       </div>
       <p class="fig-caption">A Faster R-CNN detects the connectors (green). TRACE finds which endpoint connects to which and recovers the correct trace for each cable.</p>
@@ -169,14 +165,14 @@
       <div class="method-figure">
         <img src="media/architecture.png" width="2202" height="710" loading="lazy" decoding="async" alt="TRACE architecture: a 4K overhead RGB image feeds the State Estimator (Object Detection + HANDLOOM), then the Divergence Classifier + Action Selector labels each divergence point as object, tangential crossing, or cluster, then the IP Primitives stage runs Cluster Dilation, Tangential Push, or Object Decluttering, and the loop continues until Termination." />
       </div>
-      <p class="fig-caption">Fig.&nbsp;2 &mdash; the TRACE architecture (MANIP framework). The loop re-images and re-traces until every cable is topologically consistent, up to T<sub>max</sub>&nbsp;=&nbsp;10 iterations.</p>
+      <p class="fig-caption">Fig.&nbsp;2: the TRACE architecture (MANIP framework). The loop re-images and re-traces until every cable is topologically consistent, up to T<sub>max</sub>&nbsp;=&nbsp;10 iterations.</p>
 
       <p>
         The state estimator pairs a Faster R-CNN connector detector with the
         HANDLOOM&nbsp;1.0 single-cable tracer, applied from both ends of each cable. The
-        Meta Policy Selector then combines three signals that the prior heuristic baselines do not
-        consider jointly &mdash; object masks, a local cable-density estimate, and the consistency
-        between the two traces &mdash; to select an appropriate action. The method operates on
+        Meta Policy Selector then selects an appropriate action by combining three signals that
+        the prior heuristic baselines do not consider jointly: object masks, a local
+        cable-density estimate, and the consistency between the two traces. The method operates on
         monocular RGB images alone, without depth, stereo, or range data.
       </p>
     </div>
@@ -187,7 +183,7 @@
       <p>
         TRACE traces from every connector, which yields two independent estimates for each cable.
         The point at which the estimate from connector A and the estimate from connector B cease to
-        agree is, by construction, where the cable&rsquo;s identity is uncertain &mdash; a divergence
+        agree is, by construction, where the cable&rsquo;s identity is uncertain: a divergence
         point. The steps below illustrate this.
       </p>
       <p>
@@ -250,8 +246,8 @@
           </div>
           <figcaption>
             <strong>Divergence Push</strong>
-            TRACE computes a Cable Distance Transform and extracts its ridges &mdash; the paths of
-            maximum clearance between cables &mdash; using a Frangi vesselness filter. The end-effector
+            TRACE computes a Cable Distance Transform and uses a Frangi vesselness filter to
+            extract its ridges, the paths of maximum clearance between cables. The end-effector
             follows that ridge through the crossing and a short distance (12&nbsp;px) beyond, separating
             the two cables.
           </figcaption>
@@ -277,7 +273,7 @@
     <div class="section reveal" id="loop">
       <h2>The full perception–action loop</h2>
       <p>
-        The viewer below shows one complete logged run of this loop, on the hardest setting &mdash;
+        The viewer below shows one complete logged run of this loop, on the hardest setting:
         4&nbsp;cables, 8&nbsp;connectors. It alternates between perception (the density heatmap of all eight
         traces) and action (the Divergence&nbsp;Push the robot plans); each caption is drawn from the
         system&rsquo;s action log, and the colored traces become continuous as the ambiguities are resolved.
@@ -293,7 +289,7 @@
           <input id="runScrub" class="run-scrub" type="range" min="0" max="8" value="0" step="1" aria-label="Iteration" />
           <span class="run-counter"><span id="runIdx">0</span> / 8</span>
         </div>
-        <p class="run-caption" id="runCaption">Iteration 0 — initial bi-directional trace of all eight connectors. Many cables break at crossings.</p>
+        <p class="run-caption" id="runCaption">Iteration 0: initial bi-directional trace of all eight connectors. Many cables break at crossings.</p>
       </div>
       <p class="fig-caption">A complete pipeline run on an eight-connector Tier&nbsp;4 scene.</p>
     </div>
@@ -310,7 +306,7 @@
       <dl class="spec">
         <div><dt>Robot</dt><dd>Bimanual ABB&nbsp;YuMi; motion planning via Jacobi&nbsp;Motion</dd></div>
         <div><dt>Camera</dt><dd>Overhead Logitech&nbsp;BRIO, 4K, 1&nbsp;m above the workspace</dd></div>
-        <div><dt>Perception</dt><dd>Monocular RGB only &mdash; no depth, stereo, or range data</dd></div>
+        <div><dt>Perception</dt><dd>Monocular RGB only; no depth, stereo, or range data</dd></div>
         <div><dt>Cables</dt><dd>2&ndash;4 white 6-foot USB-C&nbsp;&harr;&nbsp;USB-C cables, randomly arranged</dd></div>
         <div><dt>Endpoints</dt><dd>Connectors seated in two 8&times;5&nbsp;cm black USB hubs on opposite sides</dd></div>
         <div><dt>Compute / iter</dt><dd>Tier&nbsp;4: 6.4&nbsp;s tracing + 13.4&nbsp;s execution (Ryzen&nbsp;7&nbsp;7700X, RTX&nbsp;4090)</dd></div>
@@ -375,8 +371,8 @@
           <tbody>
             <tr class="method-row"><td>RT-DLO <span class="muted">(600×600 crops)</span></td><td>0.05 s</td><td>57.1%</td><td>76.0%</td></tr>
             <tr class="method-row"><td><strong>TRACE</strong> <span class="muted">(crops)</span></td><td>0.40 s</td><td>68.3%</td><td class="best">97.5%</td></tr>
-            <tr class="section-break method-row"><td>Nano Banana Pro <span class="muted">(VLM)</span></td><td>—</td><td>37.5%</td><td>34.8%</td></tr>
-            <tr class="method-row"><td>ChatGPT 5.2 <span class="muted">(VLM)</span></td><td>—</td><td>19.5%</td><td>26.8%</td></tr>
+            <tr class="section-break method-row"><td>Nano Banana Pro <span class="muted">(VLM)</span></td><td class="muted">n/a</td><td>37.5%</td><td>34.8%</td></tr>
+            <tr class="method-row"><td>ChatGPT 5.2 <span class="muted">(VLM)</span></td><td class="muted">n/a</td><td>19.5%</td><td>26.8%</td></tr>
             <tr class="method-row"><td><strong>TRACE</strong></td><td>0.40 s</td><td>40.2%</td><td class="best">89.3%</td></tr>
           </tbody>
         </table>
@@ -440,7 +436,7 @@
 <script src="script.js"></script>
 <script type="module">
   /* Entrance-only choreography: one orchestrated hero reveal on load, then static.
-     Progressive enhancement — if the import fails, the head-script timeout has
+     Progressive enhancement: if the import fails, the head-script timeout has
      already revealed the hero, and every widget in script.js runs independently. */
   if (document.documentElement.classList.contains('reveal-pending')) {
     try {

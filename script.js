@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────
-   TRACE project page — interaction script.
+   TRACE project page: interaction script.
    Scroll-reveal ported from the GET_Planning page; interactive
    widgets for the TRACE demos are added below.
    ───────────────────────────────────────────────────────────── */
@@ -18,20 +18,7 @@ const RUN_FRAMES = 9;
 // Preload run frames once for the run viewer.
 for (let k = 0; k < RUN_FRAMES; k++) { const p = new Image(); p.src = `media/loop/iter_${k}.jpg`; }
 
-// ── Monochrome challenge toggle ─────────────────────────
-(() => {
-  const img = document.getElementById('challengeImg');
-  const btns = document.querySelectorAll('.challenge .seg-btn');
-  if (!img || !btns.length) return;
-  btns.forEach(btn => btn.addEventListener('click', () => {
-    btns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    img.style.opacity = '0';
-    setTimeout(() => { img.src = btn.dataset.img; img.style.opacity = '1'; }, 180);
-  }));
-})();
-
-// ── Run viewer (real logged robot run, 9 frames) — autoplays & loops in view ──
+// ── Run viewer (real logged robot run, 9 frames), autoplays & loops in view ──
 (() => {
   const img = document.getElementById('runImg');
   const scrub = document.getElementById('runScrub');
@@ -45,15 +32,15 @@ for (let k = 0; k < RUN_FRAMES; k++) { const p = new Image(); p.src = `media/loo
   // Captions derived verbatim from video/real_video/metrics.txt
   // (badges + frame count + preload are shared via RUN_BADGES / RUN_FRAMES above).
   const captions = [
-    'Iteration 0 — initial bi-directional trace of all eight connectors. Many cables break at crossings (≈30% traced) and foreground clutter is present. Next move: declutter the workspace.',
+    'Iteration 0: initial bi-directional trace of all eight connectors. Many cables break at crossings (≈30% traced) and foreground clutter is present. Next move: declutter the workspace.',
     'Re-trace after decluttering. Cables are cleaner but traces still disagree where paths cross. Next move: Divergence Push (15.96° to bisector, 52 px).',
-    'Divergence Push #1 — the gripper pushes through the divergence point to pull the tangle apart.',
+    'Divergence Push #1: the gripper pushes through the divergence point to pull the tangle apart.',
     'Re-trace after push #1. Fewer disagreements remain. Next move: Divergence Push (18.58°, 40 px).',
-    'Divergence Push #2 — disambiguating the next contested crossing.',
+    'Divergence Push #2: disambiguating the next contested crossing.',
     'Re-trace after push #2. Most cables now read as continuous. Next move: Divergence Push (12.83°, 69 px).',
-    'Divergence Push #3 — one last crossing to separate.',
+    'Divergence Push #3: one last crossing to separate.',
     'Final re-trace. All eight cables are recovered as continuous, topologically consistent traces.',
-    'Result: 8 / 8 endpoints matched — 100% of every cable traced, up from ≈30% at the start.'
+    'Result: 8 / 8 endpoints matched, with 100% of every cable traced, up from ≈30% at the start.'
   ];
   const N = RUN_FRAMES;
   let i = 0, timer = null, userPaused = false;
@@ -89,7 +76,7 @@ for (let k = 0; k < RUN_FRAMES; k++) { const p = new Image(); p.src = `media/loo
   scrub.addEventListener('input', () => { stop(true); show(parseInt(scrub.value, 10)); });
   show(0);
 
-  // Autoplay while on screen — like WARP-RM's rollout clips — unless the user
+  // Autoplay while on screen, like WARP-RM's rollout clips, unless the user
   // paused or prefers reduced motion. Pauses (softly) when scrolled away.
   if (PREFERS_MOTION && 'IntersectionObserver' in window && stage) {
     new IntersectionObserver(

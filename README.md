@@ -1,4 +1,4 @@
-# TRACE — project page
+# TRACE project page
 
 A static, GitHub-hostable academic project page for **TRACE: Interactive Bi-Directional
 Tracing of Monochrome Cables Amid Clutter** (Open Sans, Berkeley Blue accent, centered
@@ -9,7 +9,7 @@ The page opens with an **auto-looping hero** (the real robot run playing on load
 **one-line result hook**, then flows problem → method → results. Motion is *entrance-only*:
 a single orchestrated hero reveal on load, then static.
 
-No build step or framework — just `index.html`, `styles.css`, `script.js`, and `media/`.
+No build step or framework, just `index.html`, `styles.css`, `script.js`, and `media/`.
 One CDN dependency, [Motion One](https://motion.dev/), is loaded as an ES module purely to
 choreograph the hero reveal; it is progressive enhancement (if it fails to load, a head-script
 safety timeout reveals the hero anyway, and every widget keeps working).
@@ -44,9 +44,9 @@ python3 -m http.server 8000
 
 ## Still placeholder (fill in later)
 
-- **Author names + links** (`index.html` header) — the PDF is anonymized; only the
+- **Author names + links** (`index.html` header): the PDF is anonymized; only the
   AUTOLab/BAIR affiliation is recoverable.
-- **Action links** — Paper PDF and Code hrefs are `#`. Project Page points at
+- **Action links**: Paper PDF and Code hrefs are `#`. Project Page points at
   `https://trace-paper.github.io/`.
 - **BibTeX** authors/venue details.
 

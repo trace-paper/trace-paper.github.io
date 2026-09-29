@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────
-   TRACE project page — styled after https://eyerobot2.github.io/:
+   TRACE project page, styled after https://eyerobot2.github.io/:
    plain white page, Open Sans throughout, an 800px reading column,
    a quiet gray sticky TOC, pill nav buttons, and Berkeley Blue
    used sparingly as the single accent.
@@ -15,9 +15,9 @@
   --text:          #1f1f1f;
   --text-secondary: #333333;
   --text-tertiary:  #8a8a8a;
-  /* UC Berkeley brand palette — brand.berkeley.edu/visual-identity/colors */
-  --accent:       #002676;            /* Berkeley Blue — the single brand accent */
-  --accent-mid:   #004AAE;            /* Blue Medium — hover / secondary accent */
+  /* UC Berkeley brand palette: brand.berkeley.edu/visual-identity/colors */
+  --accent:       #002676;            /* Berkeley Blue, the single brand accent */
+  --accent-mid:   #004AAE;            /* Blue Medium, hover / secondary accent */
   --accent-light: #edf2fc;            /* faint Berkeley-blue wash */
   --accent-rule:  #002676;
 
