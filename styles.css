@@ -574,7 +574,7 @@ footer {
   .primitive-cards { grid-template-columns: 1fr; max-width: 30rem; }
 }
 
-/* Keep all three primitive stages the same height so photos + the SVG placeholder align. */
+/* Keep the primitive stages square so the photos align across cards. */
 .primitive-stage { aspect-ratio: 1 / 1; }
 .primitive-stage img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -599,6 +599,13 @@ footer {
   opacity: 1;
   transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
+}
+
+/* The decluttering card carries no frame of its own, so centre its text
+   rather than letting it float at the top beside the illustrated cards. */
+.primitive-card.is-textonly {
+  display: flex;
+  align-items: center;
 }
 
 .primitive-stage { position: relative; overflow: hidden; }
